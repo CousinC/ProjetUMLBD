@@ -4,10 +4,10 @@ public class Produit implements I_Produit {
     
     private int quantiteStock;
     private String nom;
-    private float prixUnitaireHT;
-    private static float tauxTVA = 0.2f;
+    private double prixUnitaireHT;
+    private static double tauxTVA = 0.2d;
     
-    public Produit(String nom, float prixUnitaireHT, int qte){
+    public Produit(String nom, double prixUnitaireHT, int qte){
         this.nom = nom;
         this.prixUnitaireHT = prixUnitaireHT;
         this.quantiteStock += qte;
@@ -52,12 +52,13 @@ public class Produit implements I_Produit {
 
     @Override
     public double getPrixStockTTC() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.quantiteStock * this.getPrixUnitaireTTC();
     }
     
     @Override
     public String toString(){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String infosProduit = "";
+        infosProduit.concat(this.nom + "  prix HT : " + this.prixUnitaireHT + " prix TTC : " + this.getPrixUnitaireTTC() + "   quantité en stock : " + this.quantiteStock);
+        return infosProduit;
     }
-   
 }
