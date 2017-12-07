@@ -15,9 +15,11 @@ public class Catalogue implements I_Catalogue{
     public boolean addProduit(I_Produit produit) {
         boolean verif = true;
         int i = 0;
-        while(verif && i < this.lesProduits.size()){
-            if(lesProduits.get(i).getNom().equals(produit.getNom()))
+        String[] noms = this.getNomProduits();
+        while(verif && i < noms.length){
+            if(noms[i].equals(produit.getNom()))
                 verif = false;
+            i++;
         }
         if(verif)
             lesProduits.add(produit);
@@ -29,9 +31,11 @@ public class Catalogue implements I_Catalogue{
     public boolean addProduit(String nom, double prix, int qte) {
         boolean verif = true;
         int i = 0;
-        while(verif && i < this.lesProduits.size()){
-            if(lesProduits.get(i).getNom().equals(nom))
+        String[] noms = this.getNomProduits();
+        while(verif && i < noms.length){
+            if(noms[i].equals(nom))
                 verif = false;
+            i++;
         }
         
         if(verif){
@@ -44,12 +48,30 @@ public class Catalogue implements I_Catalogue{
 
     @Override
     public int addProduits(List<I_Produit> l) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int c = 0;
+        for(int i = 0 ; i < l.size() ; i++){
+            if(this.addProduit(l.get(i))){
+                c += 1;
+            }
+        }
+        return c;
     }
 
     @Override
     public boolean removeProduit(String nom) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean verif = false;
+        String[] noms = this.getNomProduits();
+        int i = 0;
+        while(verif && i < noms.length){
+            if(noms[i].equals(nom))
+                verif = true;
+            i++;
+        }
+        
+        if(verif)
+            lesProduits.remove(lesProduits.get(i-1));
+        
+        return verif;
     }
 
     @Override
@@ -64,7 +86,12 @@ public class Catalogue implements I_Catalogue{
 
     @Override
     public String[] getNomProduits() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String[] noms = new String[lesProduits.size()];
+        for (int i = 0; i < lesProduits.size(); i++) {
+            noms[i] = lesProduits.get(i).getNom();            
+        }
+        
+        return noms;
     }
 
     @Override
