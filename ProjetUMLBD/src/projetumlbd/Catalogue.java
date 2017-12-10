@@ -11,36 +11,51 @@ public class Catalogue implements I_Catalogue{
         lesProduits = new ArrayList<>();
     }    
     
-    @Override
-    public boolean addProduit(I_Produit produit) {
-        boolean verif = true;
+    private boolean nomProduitDejaExistant(String nomATester){
+        boolean verif = false;
         int i = 0;
         String[] noms = this.getNomProduits();
         while(verif && i < noms.length){
-            if(noms[i].equals(produit.getNom()))
+            if(noms[i].equals(nomATester))
+                verif = true;
+            i++;
+        }
+        
+        return verif;
+    }
+    
+    private I_Produit getProduitFromNom(String nomProduit){
+        boolean verif = true;
+        String[] noms = this.getNomProduits();
+        int i = 0;
+        while(verif && i < noms.length){
+            if(noms[i].equals(nomProduit))
                 verif = false;
             i++;
         }
-        if(verif)
+        return lesProduits.get(i-1);
+    }
+    
+    @Override
+    public boolean addProduit(I_Produit produit) {
+        boolean verif = false;
+
+        if(!nomProduitDejaExistant(produit.getNom())){
             lesProduits.add(produit);
+            verif = true;
+        }
         
         return verif;
     }
 
     @Override
     public boolean addProduit(String nom, double prix, int qte) {
-        boolean verif = true;
-        int i = 0;
-        String[] noms = this.getNomProduits();
-        while(verif && i < noms.length){
-            if(noms[i].equals(nom))
-                verif = false;
-            i++;
-        }
+        boolean verif = false;
         
-        if(verif){
-            I_Produit p = new Produit(nom, prix, qte);
+        if(!nomProduitDejaExistant(nom)){
+            I_Produit p = new Produit(nom, (float) prix, qte);
             lesProduits.add(p);
+            verif = true;
         }
         
         return verif;
@@ -60,23 +75,23 @@ public class Catalogue implements I_Catalogue{
     @Override
     public boolean removeProduit(String nom) {
         boolean verif = false;
-        String[] noms = this.getNomProduits();
-        int i = 0;
-        while(verif && i < noms.length){
-            if(noms[i].equals(nom))
-                verif = true;
-            i++;
+        if(nomProduitDejaExistant(nom)){
+            lesProduits.remove(getProduitFromNom(nom));
+            verif = true;
         }
-        
-        if(verif)
-            lesProduits.remove(lesProduits.get(i-1));
         
         return verif;
     }
 
     @Override
     public boolean acheterStock(String nomProduit, int qteAchetee) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean verif = false;
+        
+        if(nomProduitDejaExistant(nomProduit)){
+            verif = true;
+        }
+        
+        return verif;
     }
 
     @Override
