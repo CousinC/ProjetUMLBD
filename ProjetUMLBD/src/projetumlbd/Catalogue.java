@@ -119,17 +119,34 @@ public class Catalogue implements I_Catalogue{
 
     @Override
     public double getMontantTotalTTC() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        double montant = 0;
+        for(I_Produit produit : lesProduits){
+            montant += produit.getPrixStockTTC();
+        }
+        
+        return montant;
     }
 
     @Override
     public void clear() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        lesProduits = new ArrayList<>();
     }
     
     @Override
     public String toString(){
-        throw new UnsupportedOperationException("Not supported yet.");
+        String afficher = "";
+        for(I_Produit produit : lesProduits){
+            afficher += produit.getNom() + " " + 
+                        "prixHT : " + produit.getPrixUnitaireHT() + "? " +
+                        "prixTTC : " + produit.getPrixUnitaireTTC() + "? " +
+                        "quantité en stock : " + produit.getQuantite() +
+                        System.getProperty("line.separator");
+        }
+        
+        afficher += System.getProperty("line.separator") +
+                    "Montant total TTC du stock " + getMontantTotalTTC() + "?";
+        
+        return afficher;
     }
     
 }
