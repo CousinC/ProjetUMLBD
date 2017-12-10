@@ -136,11 +136,7 @@ public class Catalogue implements I_Catalogue{
     public String toString(){
         String afficher = "";
         for(I_Produit produit : lesProduits){
-            afficher += produit.getNom() + " " + 
-                        "prixHT : " + produit.getPrixUnitaireHT() + "? " +
-                        "prixTTC : " + produit.getPrixUnitaireTTC() + "? " +
-                        "quantité en stock : " + produit.getQuantite() +
-                        System.getProperty("line.separator");
+            afficher += produit.toString() + System.getProperty("line.separator");
         }
         
         afficher += System.getProperty("line.separator") +
