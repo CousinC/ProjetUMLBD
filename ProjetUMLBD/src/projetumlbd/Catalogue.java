@@ -88,7 +88,8 @@ public class Catalogue implements I_Catalogue{
         boolean verif = false;
         
         if(nomProduitDejaExistant(nomProduit)){
-            verif = true;
+            if(getProduitFromNom(nomProduit).ajouter(qteAchetee));
+                verif = true;
         }
         
         return verif;
@@ -96,7 +97,14 @@ public class Catalogue implements I_Catalogue{
 
     @Override
     public boolean vendreStock(String nomProduit, int qteVendue) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean verif = false;
+        
+        if(nomProduitDejaExistant(nomProduit)){
+            if(getProduitFromNom(nomProduit).enlever(qteVendue));
+                verif = true;
+        }
+        
+        return verif;
     }
 
     @Override
