@@ -129,17 +129,17 @@ public class Catalogue implements I_Catalogue{
 
     @Override
     public void clear() {
-        lesProduits = new ArrayList<>();
+        lesProduits.clear();
     }
     
     @Override
     public String toString(){
-        String afficher = "";
+        String afficher = new String();
         for(I_Produit produit : lesProduits){
-            afficher += produit.toString() + System.getProperty("line.separator");
+            afficher += produit.toString() + System.lineSeparator();
         }
         
-        afficher += System.getProperty("line.separator") +
+        afficher += System.lineSeparator() +
                     "Montant total TTC du stock " + getMontantTotalTTC() + "?";
         
         return afficher;
