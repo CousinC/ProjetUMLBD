@@ -8,9 +8,9 @@ public class Produit implements I_Produit {
     private static double tauxTVA = 0.2d;
     
     public Produit(String nom, double prixUnitaireHT, int qte){
-        this.nom = nom;
+        this.nom = nom.trim();
         this.prixUnitaireHT = prixUnitaireHT;
-        this.quantiteStock += qte;
+        this.quantiteStock = qte;
     }
 
     @Override
@@ -21,7 +21,7 @@ public class Produit implements I_Produit {
 
     @Override
     public boolean enlever(int qteVendue) {
-        if((this.quantiteStock -= qteVendue) < 0){
+        if((this.quantiteStock - qteVendue) < 0){
             return false;
         }
         else{

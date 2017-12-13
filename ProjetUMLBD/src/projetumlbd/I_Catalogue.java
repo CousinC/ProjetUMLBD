@@ -1,5 +1,6 @@
 package projetumlbd;
 
+import java.util.ArrayList;
 import java.util.List; 
 
 public interface I_Catalogue {
@@ -15,5 +16,7 @@ public interface I_Catalogue {
 	public abstract String toString();
 
 	public abstract void clear();
+
+        public ArrayList<I_Produit> getLesProduits();
 
 }

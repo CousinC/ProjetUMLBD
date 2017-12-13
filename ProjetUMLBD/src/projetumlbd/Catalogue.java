@@ -1,5 +1,6 @@
 package projetumlbd;
 
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,13 +10,17 @@ public class Catalogue implements I_Catalogue{
 
     public Catalogue(){
         lesProduits = new ArrayList<>();
-    }    
+    }  
+    
+    public ArrayList<I_Produit> getLesProduits() {
+        return lesProduits;
+    }
     
     private boolean nomProduitDejaExistant(String nomATester){
         boolean verif = false;
         int i = 0;
         String[] noms = this.getNomProduits();
-        while(verif && i < noms.length){
+        while(!verif && i < noms.length){
             if(noms[i].equals(nomATester))
                 verif = true;
             i++;
@@ -25,23 +30,23 @@ public class Catalogue implements I_Catalogue{
     }
     
     private I_Produit getProduitFromNom(String nomProduit){
-        boolean verif = true;
+        boolean trouve = false;
         String[] noms = this.getNomProduits();
         int i = 0;
-        while(verif && i < noms.length){
+        while(!trouve && i < noms.length){
             if(noms[i].equals(nomProduit))
-                verif = false;
+                trouve = true;
             i++;
         }
-        return lesProduits.get(i-1);
+        return getLesProduits().get(i-1);
     }
     
     @Override
     public boolean addProduit(I_Produit produit) {
-        boolean verif = false;
+        boolean verif = false; 
 
-        if(!nomProduitDejaExistant(produit.getNom())){
-            lesProduits.add(produit);
+        if(produit != null && !nomProduitDejaExistant(produit.getNom()) && produit.getPrixUnitaireHT() > 0 && produit.getQuantite() >= 0){
+            getLesProduits().add(produit);
             verif = true;
         }
         
@@ -52,11 +57,11 @@ public class Catalogue implements I_Catalogue{
     public boolean addProduit(String nom, double prix, int qte) {
         boolean verif = false;
         
-        if(!nomProduitDejaExistant(nom)){
-            I_Produit p = new Produit(nom, (float) prix, qte);
-            lesProduits.add(p);
+       
+        I_Produit p = new Produit(nom, prix, qte);
+        if(addProduit(p)){
             verif = true;
-        }
+        } 
         
         return verif;
     }
@@ -64,11 +69,14 @@ public class Catalogue implements I_Catalogue{
     @Override
     public int addProduits(List<I_Produit> l) {
         int c = 0;
-        for(int i = 0 ; i < l.size() ; i++){
-            if(this.addProduit(l.get(i))){
-                c += 1;
+        if(l != null){
+            for(int i = 0 ; i < l.size() ; i++){
+                if(this.addProduit(l.get(i))){
+                    c += 1;
+                }
             }
         }
+        
         return c;
     }
 
@@ -76,7 +84,7 @@ public class Catalogue implements I_Catalogue{
     public boolean removeProduit(String nom) {
         boolean verif = false;
         if(nomProduitDejaExistant(nom)){
-            lesProduits.remove(getProduitFromNom(nom));
+            getLesProduits().remove(getProduitFromNom(nom));
             verif = true;
         }
         
@@ -87,7 +95,7 @@ public class Catalogue implements I_Catalogue{
     public boolean acheterStock(String nomProduit, int qteAchetee) {
         boolean verif = false;
         
-        if(nomProduitDejaExistant(nomProduit)){
+        if(nomProduitDejaExistant(nomProduit) && qteAchetee > 0){
             if(getProduitFromNom(nomProduit).ajouter(qteAchetee));
                 verif = true;
         }
@@ -109,10 +117,11 @@ public class Catalogue implements I_Catalogue{
 
     @Override
     public String[] getNomProduits() {
-        String[] noms = new String[lesProduits.size()];
-        for (int i = 0; i < lesProduits.size(); i++) {
-            noms[i] = lesProduits.get(i).getNom();            
+        String[] noms = new String[getLesProduits().size()];
+        for (int i = 0; i < getLesProduits().size(); i++) {
+            noms[i] = getLesProduits().get(i).getNom();            
         }
+        Arrays.sort(noms);
         
         return noms;
     }
@@ -120,22 +129,23 @@ public class Catalogue implements I_Catalogue{
     @Override
     public double getMontantTotalTTC() {
         double montant = 0;
-        for(I_Produit produit : lesProduits){
+        for(I_Produit produit : getLesProduits()){
             montant += produit.getPrixStockTTC();
+            System.out.println("Prix stock" + produit.getPrixStockTTC());
         }
-        
+        montant = (double)Math.round(montant * 100) / 100;
         return montant;
     }
 
     @Override
     public void clear() {
-        lesProduits.clear();
+        getLesProduits().clear();
     }
     
     @Override
     public String toString(){
         String afficher = new String();
-        for(I_Produit produit : lesProduits){
+        for(I_Produit produit : getLesProduits()){
             afficher += produit.toString() + System.lineSeparator();
         }
         
