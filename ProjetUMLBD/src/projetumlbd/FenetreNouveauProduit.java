@@ -48,6 +48,7 @@ public class FenetreNouveauProduit extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
+                FenetrePrincipale.getControleurGeneral().getControleurCreerSupprimerProduit().creerProduit(txtNom.getText(), txtPrixHT.getText(), txtQte.getText());
 		this.dispose();
 	}
 

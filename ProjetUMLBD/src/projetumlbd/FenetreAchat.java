@@ -34,7 +34,8 @@ public class FenetreAchat extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		this.dispose();
+            FenetrePrincipale.getControleurGeneral().getControleurEnregistrerAchatVente().ajouterProduitStock((String)combo.getSelectedItem(), txtQuantite.getText());
+            this.dispose();
 	}
 
 }
