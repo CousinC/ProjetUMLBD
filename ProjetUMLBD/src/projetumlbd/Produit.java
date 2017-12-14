@@ -1,5 +1,8 @@
 package projetumlbd;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class Produit implements I_Produit {
     
     private int quantiteStock;
@@ -9,6 +12,7 @@ public class Produit implements I_Produit {
     
     public Produit(String nom, double prixUnitaireHT, int qte){
         this.nom = nom.trim();
+        this.nom = this.nom.replaceAll("\t", " ");
         this.prixUnitaireHT = prixUnitaireHT;
         this.quantiteStock = qte;
     }
@@ -47,18 +51,28 @@ public class Produit implements I_Produit {
 
     @Override
     public double getPrixUnitaireTTC() {
-        return this.prixUnitaireHT * tauxTVA;
+        double res = this.prixUnitaireHT + this.prixUnitaireHT * tauxTVA;
+        return res;
     }
 
     @Override
     public double getPrixStockTTC() {
-        return this.quantiteStock * this.getPrixUnitaireTTC();
+        double res = this.quantiteStock * this.getPrixUnitaireTTC();
+        return res;
     }
     
     @Override
     public String toString(){
         String infosProduit = "";
-        infosProduit.concat(this.nom + "  prix HT : " + this.prixUnitaireHT + " prix TTC : " + this.getPrixUnitaireTTC() + "   quantit� en stock : " + this.quantiteStock);
+        
+        final NumberFormat instance = NumberFormat.getNumberInstance();
+        instance.setMinimumFractionDigits(2);
+        instance.setMaximumFractionDigits(2);
+        String prixUHT = instance.format(this.prixUnitaireHT);
+        String prixUTTC = instance.format(this.getPrixUnitaireTTC());
+        
+        infosProduit = this.nom + " - prix HT : " + prixUHT + " € - prix TTC : " + prixUTTC + " € - quantité en stock : " + this.quantiteStock;
+        
         return infosProduit;
     }
 }

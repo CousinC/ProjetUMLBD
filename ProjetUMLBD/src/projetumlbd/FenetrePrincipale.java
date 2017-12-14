@@ -68,14 +68,14 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 
 	public void actionPerformed(ActionEvent e) {
 
-/* tabProduits permet de tester le fonctionnement des fenêtres avec un tableau de noms de produits "en dur"
-   Quand l'application fonctionnera, il faudra bien sûr récupérer les noms des produits dans le Catalogue */
+/* tabProduits permet de tester le fonctionnement des fenï¿½tres avec un tableau de noms de produits "en dur"
+   Quand l'application fonctionnera, il faudra bien sï¿½r rï¿½cupï¿½rer les noms des produits dans le Catalogue */
 		String[] tabProduits = new String[] { "Mars", "Raider", "Twix", "Treets", "M&M's", "Smarties" };
-/* Même chose pour tabCategories (partie 4) */ 		
+/* Mï¿½me chose pour tabCategories (partie 4) */ 		
 //		String[] tabCategories = new String[] {"Bio", "Luxe" };
 		
 		if (e.getSource() == btAfficher)
-			new FenetreAffichage("ajourd'hui nous allons faire de la programmation en 5 couches");
+			new FenetreAffichage("ajourd'hui nous allons faire de la programmation en 5 couchesâ‚¬â‚¬â‚¬â‚¬â‚¬â‚¬");
 		if (e.getSource() == btNouveauProduit)
 //			new FenetreNouveauProduit(tabCategories);
 			new FenetreNouveauProduit();

@@ -1,5 +1,6 @@
 package projetumlbd;
 
+import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +32,16 @@ public class Catalogue implements I_Catalogue{
     
     private I_Produit getProduitFromNom(String nomProduit){
         boolean trouve = false;
-        String[] noms = this.getNomProduits();
+        I_Produit p = null;
         int i = 0;
-        while(!trouve && i < noms.length){
-            if(noms[i].equals(nomProduit))
+        while(!trouve && i < lesProduits.size()){
+            if(lesProduits.get(i).getNom().equals(nomProduit)){
                 trouve = true;
+                p = lesProduits.get(i);
+            }
             i++;
         }
-        return getLesProduits().get(i-1);
+        return p;
     }
     
     @Override
@@ -107,8 +110,9 @@ public class Catalogue implements I_Catalogue{
     public boolean vendreStock(String nomProduit, int qteVendue) {
         boolean verif = false;
         
-        if(nomProduitDejaExistant(nomProduit)){
-            if(getProduitFromNom(nomProduit).enlever(qteVendue));
+        if(nomProduitDejaExistant(nomProduit) && qteVendue > 0){
+            I_Produit p = getProduitFromNom(nomProduit);
+            if(p.enlever(qteVendue))
                 verif = true;
         }
         
@@ -131,7 +135,6 @@ public class Catalogue implements I_Catalogue{
         double montant = 0;
         for(I_Produit produit : getLesProduits()){
             montant += produit.getPrixStockTTC();
-            System.out.println("Prix stock" + produit.getPrixStockTTC());
         }
         montant = (double)Math.round(montant * 100) / 100;
         return montant;
@@ -146,11 +149,15 @@ public class Catalogue implements I_Catalogue{
     public String toString(){
         String afficher = new String();
         for(I_Produit produit : getLesProduits()){
-            afficher += produit.toString() + System.lineSeparator();
+            afficher += produit.toString() + "\n";
         }
         
-        afficher += System.lineSeparator() +
-                    "Montant total TTC du stock " + getMontantTotalTTC() + "?";
+        final NumberFormat instance = NumberFormat.getNumberInstance();
+        instance.setMinimumFractionDigits(2);
+        String montantTotalTTC =  instance.format(getMontantTotalTTC());    
+        
+        afficher += "\n" +
+                    "Montant total TTC du stock : " + montantTotalTTC + " €";
         
         return afficher;
     }
