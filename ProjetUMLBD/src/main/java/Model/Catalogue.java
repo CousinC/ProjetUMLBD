@@ -1,5 +1,8 @@
 package Model;
 
+import Model.DAO.DAOProduit.DAOProduitFactory;
+import Model.DAO.DAOProduit.I_DAOProduit;
+
 import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.ArrayList;
@@ -9,8 +12,12 @@ public class Catalogue implements I_Catalogue {
     
     private ArrayList<I_Produit> lesProduits;
 
+    private DAOProduitFactory daoProduitFactory = DAOProduitFactory.getDaoProduitFactory();
+    private I_DAOProduit daoProduit = daoProduitFactory.creerDAOProduit("XML");
+
     public Catalogue(){
-        lesProduits = new ArrayList<I_Produit>();
+        lesProduits = new ArrayList<>();
+        lesProduits.addAll(daoProduit.findAll());
     }  
     
     public ArrayList<I_Produit> getLesProduits() {
@@ -50,6 +57,7 @@ public class Catalogue implements I_Catalogue {
 
         if(produit != null && !nomProduitDejaExistant(produit.getNom()) && produit.getPrixUnitaireHT() > 0 && produit.getQuantite() >= 0){
             getLesProduits().add(produit);
+            daoProduit.create(produit);
             verif = true;
         }
         
@@ -87,7 +95,9 @@ public class Catalogue implements I_Catalogue {
     public boolean removeProduit(String nom) {
         boolean verif = false;
         if(nomProduitDejaExistant(nom)){
-            getLesProduits().remove(getProduitFromNom(nom));
+            I_Produit produit = getProduitFromNom(nom);
+            getLesProduits().remove(produit);
+            daoProduit.delete(produit);
             verif = true;
         }
         
@@ -97,10 +107,13 @@ public class Catalogue implements I_Catalogue {
     @Override
     public boolean acheterStock(String nomProduit, int qteAchetee) {
         boolean verif = false;
-        
+
         if(nomProduitDejaExistant(nomProduit) && qteAchetee > 0){
-            if(getProduitFromNom(nomProduit).ajouter(qteAchetee));
+            I_Produit produit = getProduitFromNom(nomProduit);
+            if(produit.ajouter(qteAchetee)){
+                daoProduit.update(produit);
                 verif = true;
+            }
         }
         
         return verif;
@@ -109,11 +122,13 @@ public class Catalogue implements I_Catalogue {
     @Override
     public boolean vendreStock(String nomProduit, int qteVendue) {
         boolean verif = false;
-        
+
         if(nomProduitDejaExistant(nomProduit) && qteVendue > 0){
-            I_Produit p = getProduitFromNom(nomProduit);
-            if(p.enlever(qteVendue))
+            I_Produit produit = getProduitFromNom(nomProduit);
+            if(produit.enlever(qteVendue)){
+                daoProduit.update(produit);
                 verif = true;
+            }
         }
         
         return verif;

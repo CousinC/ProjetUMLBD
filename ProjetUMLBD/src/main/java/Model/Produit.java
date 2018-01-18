@@ -1,8 +1,5 @@
 package Model;
 
-import Model.DAO.DAOProduit.DAOProduitFactory;
-import Model.DAO.DAOProduit.I_DAOProduit;
-
 import java.text.NumberFormat;
 
 public class Produit implements I_Produit {
@@ -11,9 +8,6 @@ public class Produit implements I_Produit {
     private String nom;
     private double prixUnitaireHT;
     private static double tauxTVA = 0.2d;
-
-    private DAOProduitFactory daoProduitFactory = DAOProduitFactory.getDaoProduitFactory();
-    private I_DAOProduit daoProduit = daoProduitFactory.creerDAOProduit("");
     
     public Produit(String nom, double prixUnitaireHT, int qte){
         this.nom = nom.trim();

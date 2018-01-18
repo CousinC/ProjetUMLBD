@@ -24,8 +24,10 @@ public class DAOProduitFactory {
             case "XML":
                 daoProduit = new AdaptateurDAOProduitXML();
                 break;
+            default:
+                daoProduit = new DAOProduitSQL();
+                break;
         }
-        
         return daoProduit;
     }
 }

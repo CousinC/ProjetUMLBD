@@ -13,7 +13,7 @@ public class FenetreNouveauProduit extends JFrame implements ActionListener {
 //	public FenetreNouveauProduit(String[] lesCategories) {
 	public FenetreNouveauProduit() {	
 
-		setTitle("Creation Model.Produit");
+		setTitle("Creation Produit");
 		setBounds(500, 500, 200, 250);
 		Container contentPane = getContentPane();
 		contentPane.setLayout(new FlowLayout());

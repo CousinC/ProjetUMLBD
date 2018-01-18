@@ -11,7 +11,7 @@ public class FenetreAchat extends JFrame implements ActionListener {
 	public FenetreAchat(String[] lesProduits) {
 
 		setTitle("Achat");
-		setBounds(500, 500, 200, 125);
+		setBounds(500, 500, 200, 160);
 		Container contentPane = getContentPane();
 		contentPane.setLayout(new FlowLayout());
 		btAchat = new JButton("Achat");

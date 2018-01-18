@@ -40,7 +40,7 @@ public class DAOProduitSQL implements I_DAOProduit {
     public List<I_Produit> findAll(){
         List<I_Produit> listeProduit = new ArrayList<I_Produit>();
         try {
-            String sql = "SELECT * FROM Produits;";
+            String sql = "SELECT * FROM Produits ";
             Connection c = ConnexionBD.getConnexion();
             Statement st = c.createStatement();
                   
@@ -66,7 +66,7 @@ public class DAOProduitSQL implements I_DAOProduit {
         Produit p = null;
         try {
             String sql = "SELECT * FROM Produits "
-                        + "WHERE nomProduit = ?;";
+                        + "WHERE nomProduit = ? ";
             Connection c = ConnexionBD.getConnexion();
             PreparedStatement pst = c.prepareStatement(sql);
             
@@ -91,7 +91,7 @@ public class DAOProduitSQL implements I_DAOProduit {
         try {
             String sql = "UPDATE Produits "
                         + "SET qteStock = ?, prixUnitaireHT = ? "
-                        + "WHERE nomProduit = ?;";
+                        + "WHERE nomProduit = ? ";
             Connection c = ConnexionBD.getConnexion();
             PreparedStatement pst = c.prepareStatement(sql);
             
@@ -111,7 +111,7 @@ public class DAOProduitSQL implements I_DAOProduit {
     public boolean delete(I_Produit p){
         try {
             String sql = "DELETE FROM Produits "
-                        + "WHERE nomProduit = ?;";
+                        + "WHERE nomProduit = ? ";
             Connection c = ConnexionBD.getConnexion();
             PreparedStatement pst = c.prepareStatement(sql);
             
