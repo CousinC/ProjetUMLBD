@@ -11,7 +11,7 @@ public class FenetreAffichage extends JFrame implements ActionListener {
 	public FenetreAffichage(String texte) {
 
 		setTitle("Affichage");
-		setBounds(500, 500, 450, 250);
+		setBounds(500, 500, 450, 300);
 		JPanel panHaut = new JPanel();
 		JPanel panBas = new JPanel();
 		panHaut.setLayout(new BorderLayout());

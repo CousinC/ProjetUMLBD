@@ -6,17 +6,25 @@ import java.sql.SQLException;
 
 public class ConnexionBD {
 
-    private static final String URL = "jdbc:oracle:thin:@162.38.222.149:1521:iut";
-    private static final String LOGIN = "cousinc";
-    private static final String PASSWORD = "joyeux";
-    private static final String DRIVER = "oracle.jdbc.driver.OracleDriver";
+    private final String URL = "jdbc:oracle:thin:@162.38.222.149:1521:iut";
+    private final String LOGIN = "cousinc";
+    private final String PASSWORD = "joyeux";
+    private final String DRIVER = "oracle.jdbc.driver.OracleDriver";
 
-    private static Connection cn = null;
+    private static ConnexionBD instance;
+    private Connection cn = null;
 
     private ConnexionBD(){
     }
 
-    public static Connection getConnexion(){
+    public static ConnexionBD getInstance(){
+        if(instance == null){
+            instance = new ConnexionBD();
+        }
+        return instance;
+    }
+
+    public Connection getConnexion(){
         if(cn == null){
             try {
                 Class.forName(DRIVER);
@@ -35,16 +43,16 @@ public class ConnexionBD {
         return cn;
     }
 
-    public static void deconnexion(){
+    public void deconnexion(){
         try {
-            ConnexionBD.cn.close();
+            cn.close();
         }
         catch (SQLException ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
         }
         finally{
-            if(ConnexionBD.cn != null){
+            if(cn != null){
                 try{
                     cn.close();
                 }
@@ -53,5 +61,9 @@ public class ConnexionBD {
                 }
             }
         }
+    }
+
+    public Connection getCn() {
+        return cn;
     }
 }

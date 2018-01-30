@@ -17,8 +17,6 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 	private JButton btAchat;
 	private JButton btVente;
 	private JButton btQuitter;
-        
-	private ControleurGeneral controleurGeneral = ControleurGeneral.getInstance();
 	
 	public FenetrePrincipale() {
 		
@@ -71,12 +69,14 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 
 /* tabProduits permet de tester le fonctionnement des fenêtres avec un tableau de noms de produits "en dur"
    Quand l'application fonctionnera, il faudra bien sûr récupérer les noms des produits dans le Catalogue */
-		String[] tabProduits = controleurGeneral.genererListeProduits();
+		String[] tabProduits = ControleurGeneral.getInstance().genererListeProduits();
 /* Même chose pour tabCategories (partie 4) */
 //		String[] tabCategories = new String[] {"Bio", "Luxe" };
 		
-		if (e.getSource() == btAfficher)
-			new FenetreAffichage(controleurGeneral.getControleurEtatStock().affichageEtatStock());
+		if (e.getSource() == btAfficher){
+		    ControleurGeneral controleurGeneral = ControleurGeneral.getInstance();
+            new FenetreAffichage(controleurGeneral.getControleurEtatStock().affichageEtatStock());
+        }
 		if (e.getSource() == btNouveauProduit)
 //			new Views.FenetreNouveauProduit(tabCategories);
 			new FenetreNouveauProduit();
@@ -92,12 +92,14 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 			new FenetreVente(tabProduits);
 		if (e.getSource() == btQuitter){
 			System.out.println("Au revoir");
+            ControleurGeneral.getInstance().deconnexionBDSQL();
 			System.exit(0);
 		}	
 	}
 
 	public void windowClosing(WindowEvent arg0) {
 		System.out.println("Au revoir");
+		ControleurGeneral.getInstance().deconnexionBDSQL();
 		System.exit(0);
 	}
 

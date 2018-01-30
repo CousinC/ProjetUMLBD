@@ -14,7 +14,7 @@ public class Catalogue implements I_Catalogue {
     private I_DAOProduit daoProduit;
 
     public Catalogue(){
-        // Création d'un lien avec la base de données
+        // Création du lien avec la base de données
         DAOProduitFactory daoProduitFactory = DAOProduitFactory.getInstance();
         daoProduit = daoProduitFactory.creerDAOProduit("SQL");
 
@@ -73,7 +73,7 @@ public class Catalogue implements I_Catalogue {
                     && produitNExistePasDeja;
 
             if(produitPeutEtreAjoute){
-                getLesProduits().add(produit);
+                lesProduits.add(produit);
                 daoProduit.create(produit);
                 reussiteAjoutProduit = true;
             }
@@ -114,7 +114,7 @@ public class Catalogue implements I_Catalogue {
 
         if(nomProduitDejaExistant(nom)){
             I_Produit produit = getProduitFromNom(nom);
-            List<I_Produit> listeDesProduits = getLesProduits();
+            List<I_Produit> listeDesProduits = lesProduits;
             listeDesProduits.remove(produit);
             daoProduit.delete(produit);
             reussiteSuppressionProduit = true;
@@ -196,7 +196,7 @@ public class Catalogue implements I_Catalogue {
 
     @Override
     public void clear() {
-        getLesProduits().clear();
+        lesProduits.clear();
     }
     
     @Override
@@ -204,7 +204,7 @@ public class Catalogue implements I_Catalogue {
 
         StringBuilder infosDesProduitsDuCatalogue = new StringBuilder();
 
-        for(I_Produit produit : getLesProduits()){
+        for(I_Produit produit : lesProduits){
             infosDesProduitsDuCatalogue.append(produit.toString()).append("\n");
         }
 

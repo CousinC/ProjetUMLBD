@@ -22,7 +22,7 @@ public class DAOProduitSQL implements I_DAOProduit {
     public boolean create(I_Produit p){
         try {
             String sql = "INSERT INTO Produits (idProduit, nomProduit, qteStock, prixUnitaireHT) VALUES (produits_Seq.NEXTVAL, ?,?,?)";
-            Connection c = ConnexionBD.getConnexion();
+            Connection c = ConnexionBD.getInstance().getConnexion();
             PreparedStatement pst = c.prepareStatement(sql);
             
             pst.setString(1, p.getNom());
@@ -41,7 +41,7 @@ public class DAOProduitSQL implements I_DAOProduit {
         List<I_Produit> listeProduit = new ArrayList<I_Produit>();
         try {
             String sql = "SELECT * FROM Produits ";
-            Connection c = ConnexionBD.getConnexion();
+            Connection c = ConnexionBD.getInstance().getConnexion();
             Statement st = c.createStatement();
                   
             ResultSet rs = st.executeQuery(sql);
@@ -67,7 +67,7 @@ public class DAOProduitSQL implements I_DAOProduit {
         try {
             String sql = "SELECT * FROM Produits "
                         + "WHERE nomProduit = ? ";
-            Connection c = ConnexionBD.getConnexion();
+            Connection c = ConnexionBD.getInstance().getConnexion();
             PreparedStatement pst = c.prepareStatement(sql);
             
             pst.setString(1, nomProduit);
@@ -79,7 +79,6 @@ public class DAOProduitSQL implements I_DAOProduit {
             double prix = rs.getDouble(4);
 
             p = new Produit(nom, prix, qte);
-                
         } catch (SQLException ex) {
             Logger.getLogger(DAOProduitSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -92,7 +91,7 @@ public class DAOProduitSQL implements I_DAOProduit {
             String sql = "UPDATE Produits "
                         + "SET qteStock = ?, prixUnitaireHT = ? "
                         + "WHERE nomProduit = ? ";
-            Connection c = ConnexionBD.getConnexion();
+            Connection c = ConnexionBD.getInstance().getConnexion();
             PreparedStatement pst = c.prepareStatement(sql);
             
             pst.setInt(1, p.getQuantite());
@@ -100,7 +99,6 @@ public class DAOProduitSQL implements I_DAOProduit {
             pst.setString(3, p.getNom());
 
             return (pst.executeUpdate() != 0);
-                
         } catch (SQLException ex) {
             Logger.getLogger(DAOProduitSQL.class.getName()).log(Level.SEVERE, null, ex);
             return false;
@@ -112,13 +110,12 @@ public class DAOProduitSQL implements I_DAOProduit {
         try {
             String sql = "DELETE FROM Produits "
                         + "WHERE nomProduit = ? ";
-            Connection c = ConnexionBD.getConnexion();
+            Connection c = ConnexionBD.getInstance().getConnexion();
             PreparedStatement pst = c.prepareStatement(sql);
             
             pst.setString(1, p.getNom());
 
             return (pst.executeUpdate() != 0);
-                
         } catch (SQLException ex) {
             Logger.getLogger(DAOProduitSQL.class.getName()).log(Level.SEVERE, null, ex);
             return false;

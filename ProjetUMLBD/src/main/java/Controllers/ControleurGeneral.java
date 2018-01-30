@@ -1,6 +1,7 @@
 package Controllers;
 
 import Models.Catalogue;
+import Models.DAO.ConnexionBD;
 import Models.I_Catalogue;
 
 public class ControleurGeneral {
@@ -38,5 +39,12 @@ public class ControleurGeneral {
 
     public ControleurEnregistrerAchatVente getControleurEnregistrerAchatVente() {
         return controleurEnregistrerAchatVente;
+    }
+
+    public void deconnexionBDSQL(){
+        ConnexionBD connexionBD = ConnexionBD.getInstance();
+        if(connexionBD.getCn() != null){
+            connexionBD.deconnexion();
+        }
     }
 }
