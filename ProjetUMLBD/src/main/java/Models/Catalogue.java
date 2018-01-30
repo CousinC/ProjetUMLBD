@@ -14,8 +14,10 @@ public class Catalogue implements I_Catalogue {
     private I_DAOProduit daoProduit;
 
     public Catalogue(){
+        // Création d'un lien avec la base de données
         DAOProduitFactory daoProduitFactory = DAOProduitFactory.getInstance();
         daoProduit = daoProduitFactory.creerDAOProduit("SQL");
+
         lesProduits = new ArrayList<>();
         lesProduits.addAll(daoProduit.findAll());
     }  
@@ -25,134 +27,171 @@ public class Catalogue implements I_Catalogue {
     }
     
     private boolean nomProduitDejaExistant(String nomATester){
-        boolean verif = false;
-        int i = 0;
-        String[] noms = this.getNomProduits();
-        while(!verif && i < noms.length){
-            if(noms[i].equals(nomATester))
-                verif = true;
-            i++;
+
+        boolean produitExiste = false;
+        int compteur = 0;
+        String[] nomsDesProduitsExistants = this.getNomProduits();
+
+        while(!produitExiste && compteur < nomsDesProduitsExistants.length){
+            if(nomsDesProduitsExistants[compteur].equals(nomATester))
+                produitExiste = true;
+            compteur++;
         }
         
-        return verif;
+        return produitExiste;
     }
     
     private I_Produit getProduitFromNom(String nomProduit){
-        boolean trouve = false;
-        I_Produit p = null;
-        int i = 0;
-        while(!trouve && i < lesProduits.size()){
-            if(lesProduits.get(i).getNom().equals(nomProduit)){
-                trouve = true;
-                p = lesProduits.get(i);
+
+        boolean produitExiste = false;
+        I_Produit produit = null;
+        int compteur = 0;
+        String nomProduitCourant;
+
+        while(!produitExiste && compteur < lesProduits.size()){
+            nomProduitCourant = lesProduits.get(compteur).getNom();
+            if(nomProduitCourant.equals(nomProduit)){
+                produitExiste = true;
+                produit = lesProduits.get(compteur);
             }
-            i++;
+            compteur++;
         }
-        return p;
+
+        return produit;
     }
     
     @Override
     public boolean addProduit(I_Produit produit) {
-        boolean verif = false; 
 
-        if(produit != null && !nomProduitDejaExistant(produit.getNom()) && produit.getPrixUnitaireHT() > 0 && produit.getQuantite() >= 0){
-            getLesProduits().add(produit);
-            daoProduit.create(produit);
-            verif = true;
+        boolean reussiteAjoutProduit = false;
+
+        if(produit != null){
+            boolean prixUnitaireHTEstSuperieurAZero =  produit.getPrixUnitaireHT() > 0;
+            boolean quantiteDuProduitEstPositive = produit.getQuantite() >= 0;
+            boolean produitNExistePasDeja = !nomProduitDejaExistant(produit.getNom());
+            boolean produitPeutEtreAjoute = prixUnitaireHTEstSuperieurAZero && quantiteDuProduitEstPositive
+                    && produitNExistePasDeja;
+
+            if(produitPeutEtreAjoute){
+                getLesProduits().add(produit);
+                daoProduit.create(produit);
+                reussiteAjoutProduit = true;
+            }
         }
         
-        return verif;
+        return reussiteAjoutProduit;
     }
 
     @Override
     public boolean addProduit(String nom, double prix, int qte) {
-        boolean verif = false;
-        
-       
-        I_Produit p = new Produit(nom, prix, qte);
-        if(addProduit(p)){
-            verif = true;
-        } 
-        
-        return verif;
+
+        I_Produit produit = new Produit(nom, prix, qte);
+        boolean reussiteAjoutProduit = addProduit(produit);
+
+        return reussiteAjoutProduit;
     }
 
     @Override
-    public int addProduits(List<I_Produit> l) {
-        int c = 0;
-        if(l != null){
-            for (I_Produit produit : l) {
-                if (this.addProduit(produit)) {
-                    c += 1;
+    public int addProduits(List<I_Produit> produitList) {
+
+        int nbProduitsAjoutes = 0;
+
+        if(produitList != null){
+            for(I_Produit produit : produitList) {
+                if(this.addProduit(produit)) {
+                    nbProduitsAjoutes += 1;
                 }
             }
         }
         
-        return c;
+        return nbProduitsAjoutes;
     }
 
     @Override
     public boolean removeProduit(String nom) {
-        boolean verif = false;
+
+        boolean reussiteSuppressionProduit = false;
+
         if(nomProduitDejaExistant(nom)){
             I_Produit produit = getProduitFromNom(nom);
-            getLesProduits().remove(produit);
+            List<I_Produit> listeDesProduits = getLesProduits();
+            listeDesProduits.remove(produit);
             daoProduit.delete(produit);
-            verif = true;
+            reussiteSuppressionProduit = true;
         }
         
-        return verif;
+        return reussiteSuppressionProduit;
     }
 
     @Override
     public boolean acheterStock(String nomProduit, int qteAchetee) {
-        boolean verif = false;
 
-        if(nomProduitDejaExistant(nomProduit) && qteAchetee > 0){
+        boolean reussiteAchatStockProduit = false;
+        boolean quantiteQueLOnVeutAcheterEstPositive = qteAchetee > 0;
+
+        if(nomProduitDejaExistant(nomProduit) && quantiteQueLOnVeutAcheterEstPositive){
+
             I_Produit produit = getProduitFromNom(nomProduit);
-            if(produit.ajouter(qteAchetee)){
+            boolean quantiteProduitEstBienAjoutee = produit.ajouter(qteAchetee);
+
+            if(quantiteProduitEstBienAjoutee){
                 daoProduit.update(produit);
-                verif = true;
+                reussiteAchatStockProduit = true;
             }
         }
         
-        return verif;
+        return reussiteAchatStockProduit;
     }
 
     @Override
     public boolean vendreStock(String nomProduit, int qteVendue) {
-        boolean verif = false;
 
-        if(nomProduitDejaExistant(nomProduit) && qteVendue > 0){
+        boolean reussiteVenteStockProduit = false;
+        boolean quantiteQueLOnVeutVendreEstPositive = qteVendue > 0;
+
+        if(nomProduitDejaExistant(nomProduit) && quantiteQueLOnVeutVendreEstPositive){
+
             I_Produit produit = getProduitFromNom(nomProduit);
-            if(produit.enlever(qteVendue)){
+            boolean quantiteProduitEstBienEnlevee = produit.enlever(qteVendue);
+
+            if(quantiteProduitEstBienEnlevee){
                 daoProduit.update(produit);
-                verif = true;
+                reussiteVenteStockProduit = true;
             }
         }
         
-        return verif;
+        return reussiteVenteStockProduit;
     }
 
     @Override
     public String[] getNomProduits() {
-        String[] noms = new String[getLesProduits().size()];
-        for (int i = 0; i < getLesProduits().size(); i++) {
-            noms[i] = getLesProduits().get(i).getNom();            
+
+        int nbProduits = lesProduits.size();
+        String[] ensembleDesNomsDesProduits = new String[nbProduits];
+        String nomDuProduitCourant;
+
+        for (int i = 0; i < nbProduits; i++) {
+            nomDuProduitCourant = lesProduits.get(i).getNom();
+            ensembleDesNomsDesProduits[i] = nomDuProduitCourant;
         }
-        Arrays.sort(noms);
+
+        Arrays.sort(ensembleDesNomsDesProduits);
         
-        return noms;
+        return ensembleDesNomsDesProduits;
     }
 
     @Override
     public double getMontantTotalTTC() {
-        double montant = 0;
-        for(I_Produit produit : getLesProduits()){
-            montant += produit.getPrixStockTTC();
+
+        double montantTotalTTC = 0;
+
+        for(I_Produit produit : lesProduits){
+            montantTotalTTC += produit.getPrixStockTTC();
         }
-        montant = (double)Math.round(montant * 100) / 100;
-        return montant;
+
+        montantTotalTTC = (double)Math.round(montantTotalTTC * 100) / 100;
+
+        return montantTotalTTC;
     }
 
     @Override
@@ -162,18 +201,22 @@ public class Catalogue implements I_Catalogue {
     
     @Override
     public String toString(){
-        StringBuilder afficher = new StringBuilder();
+
+        StringBuilder infosDesProduitsDuCatalogue = new StringBuilder();
+
         for(I_Produit produit : getLesProduits()){
-            afficher.append(produit.toString()).append("\n");
+            infosDesProduitsDuCatalogue.append(produit.toString()).append("\n");
         }
-        
+
+        // Permet de gérer le format et l'arrondi du montantTotalTTC
         final NumberFormat instance = NumberFormat.getNumberInstance();
         instance.setMinimumFractionDigits(2);
-        String montantTotalTTC =  instance.format(getMontantTotalTTC());    
+        String montantTotalTTC = instance.format(getMontantTotalTTC());
+
+        infosDesProduitsDuCatalogue.append("\n" + "Montant total TTC du stock : ").
+                append(montantTotalTTC).append(" €");
         
-        afficher.append("\n" + "Montant total TTC du stock : ").append(montantTotalTTC).append(" €");
-        
-        return afficher.toString();
+        return infosDesProduitsDuCatalogue.toString();
     }
     
 }

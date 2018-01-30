@@ -24,13 +24,14 @@ public class Produit implements I_Produit {
 
     @Override
     public boolean enlever(int qteVendue) {
+        boolean ventePossible = true;
         if((this.quantiteStock - qteVendue) < 0){
-            return false;
+            ventePossible = false;
         }
         else{
             this.quantiteStock -= qteVendue;
-            return true;
         }
+        return ventePossible;
     }
 
     @Override
@@ -60,8 +61,10 @@ public class Produit implements I_Produit {
     
     @Override
     public String toString(){
+
         String infosProduit = "";
-        
+
+        // Permet de gérer les formats et arrondis des prix du produit
         final NumberFormat instance = NumberFormat.getNumberInstance();
         instance.setMinimumFractionDigits(2);
         instance.setMaximumFractionDigits(2);

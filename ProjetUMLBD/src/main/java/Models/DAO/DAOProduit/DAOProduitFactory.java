@@ -28,6 +28,7 @@ public class DAOProduitFactory {
                 daoProduit = new DAOProduitSQL();
                 break;
         }
+
         return daoProduit;
     }
 }
