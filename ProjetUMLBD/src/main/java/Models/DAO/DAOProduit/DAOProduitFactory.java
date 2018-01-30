@@ -1,17 +1,17 @@
-package Model.DAO.DAOProduit;
+package Models.DAO.DAOProduit;
 
 public class DAOProduitFactory {
 
-    private static DAOProduitFactory daoProduitFactory = null;
+    private static DAOProduitFactory instance;
 
     private DAOProduitFactory(){
     }
 
-    public static DAOProduitFactory getDaoProduitFactory(){
-        if(daoProduitFactory == null){
-            daoProduitFactory = new DAOProduitFactory();
+    public static DAOProduitFactory getInstance(){
+        if(instance == null){
+            instance = new DAOProduitFactory();
         }
-        return daoProduitFactory;
+        return instance;
     }
 
     public I_DAOProduit creerDAOProduit(String typeBaseDonnees){

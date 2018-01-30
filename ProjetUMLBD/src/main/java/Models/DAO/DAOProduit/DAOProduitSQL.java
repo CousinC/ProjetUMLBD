@@ -1,8 +1,8 @@
-package Model.DAO.DAOProduit;
+package Models.DAO.DAOProduit;
 
-import Model.DAO.ConnexionBD;
-import Model.I_Produit;
-import Model.Produit;
+import Models.DAO.ConnexionBD;
+import Models.I_Produit;
+import Models.Produit;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

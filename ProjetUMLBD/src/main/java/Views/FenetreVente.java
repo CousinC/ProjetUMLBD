@@ -1,3 +1,8 @@
+package Views;
+
+import Controllers.ControleurEnregistrerAchatVente;
+import Controllers.ControleurGeneral;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -30,8 +35,10 @@ public class FenetreVente extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-            FenetrePrincipale.getControleurGeneral().getControleurEnregistrerAchatVente().vendreProduit((String)combo.getSelectedItem(), txtQuantite.getText());
-            this.dispose();
+		ControleurGeneral controleurGeneral = ControleurGeneral.getInstance();
+		ControleurEnregistrerAchatVente controleurEnregistrerAchatVente = controleurGeneral.getControleurEnregistrerAchatVente();
+		controleurEnregistrerAchatVente.vendreProduit((String)combo.getSelectedItem(), txtQuantite.getText());
+		this.dispose();
 	}
 
 }

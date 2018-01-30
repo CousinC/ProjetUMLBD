@@ -1,8 +1,10 @@
-import Model.I_Catalogue;
+package Controllers;
+
+import Models.I_Catalogue;
 
 public class ControleurEtatStock {
     
-    private static I_Catalogue catalogue;
+    private I_Catalogue catalogue;
     
     public ControleurEtatStock(I_Catalogue cat){
         this.catalogue = cat;

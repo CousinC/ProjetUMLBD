@@ -1,7 +1,7 @@
-package Model;
+package Models;
 
-import Model.DAO.DAOProduit.DAOProduitFactory;
-import Model.DAO.DAOProduit.I_DAOProduit;
+import Models.DAO.DAOProduit.DAOProduitFactory;
+import Models.DAO.DAOProduit.I_DAOProduit;
 
 import java.text.NumberFormat;
 import java.util.Arrays;
@@ -11,11 +11,11 @@ import java.util.List;
 public class Catalogue implements I_Catalogue {
     
     private ArrayList<I_Produit> lesProduits;
-
-    private DAOProduitFactory daoProduitFactory = DAOProduitFactory.getDaoProduitFactory();
-    private I_DAOProduit daoProduit = daoProduitFactory.creerDAOProduit("XML");
+    private I_DAOProduit daoProduit;
 
     public Catalogue(){
+        DAOProduitFactory daoProduitFactory = DAOProduitFactory.getInstance();
+        daoProduit = daoProduitFactory.creerDAOProduit("SQL");
         lesProduits = new ArrayList<>();
         lesProduits.addAll(daoProduit.findAll());
     }  

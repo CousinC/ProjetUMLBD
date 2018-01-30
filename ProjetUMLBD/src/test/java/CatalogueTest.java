@@ -1,7 +1,7 @@
-import Model.Catalogue;
-import Model.I_Catalogue;
-import Model.I_Produit;
-import Model.Produit;
+import Models.Catalogue;
+import Models.I_Catalogue;
+import Models.I_Produit;
+import Models.Produit;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -15,8 +15,8 @@ public class CatalogueTest {
 	@Before
 	public void setUp() {
 		cat = new Catalogue();
-//		Si votre Model.Catalogue est un Singleton, il faut changer la ligne précédente puis vider le Model.Catalogue avec la mêthode clear() comme indiqué é la ligne suivante
-//		cat.clear();
+//		Si votre Models.Catalogue est un Singleton, il faut changer la ligne précédente puis vider le Models.Catalogue avec la mêthode clear() comme indiqué é la ligne suivante
+		cat.clear();
 	}
 	
 	@Test
@@ -794,7 +794,7 @@ public class CatalogueTest {
 		assertEquals("on affiche que deux chiffres aprés la virgule dans le prix unitaires TTC, mais le montant total TTC du catalogue est calculé avec les prix unitaires TTC non arrondis",resultatAttendu, cat.toString());
 	}
 	
-        @Test
+	@Test
 	public void testClear() {
             
             cat.addProduit("Mars", 10, 5);

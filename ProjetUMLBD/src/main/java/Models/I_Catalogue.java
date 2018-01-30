@@ -1,4 +1,4 @@
-package Model;
+package Models;
 
 import java.util.ArrayList;
 import java.util.List; 
@@ -17,6 +17,6 @@ public interface I_Catalogue {
 
 	public abstract void clear();
 
-        public ArrayList<I_Produit> getLesProduits();
+	public ArrayList<I_Produit> getLesProduits();
 
 }

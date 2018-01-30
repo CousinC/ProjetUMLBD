@@ -1,11 +1,11 @@
-package Model.DAO.DAOProduit;
+package Models.DAO.DAOProduit;
 
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.XMLOutputter;
-import Model.I_Produit;
-import Model.Produit;
+import Models.I_Produit;
+import Models.Produit;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,3 +1,8 @@
+package Views;
+
+import Controllers.ControleurCreerSupprimerProduit;
+import Controllers.ControleurGeneral;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -10,7 +15,7 @@ public class FenetreNouveauProduit extends JFrame implements ActionListener {
 //	private JComboBox<String> combo;
 	private JButton btValider;
 
-//	public FenetreNouveauProduit(String[] lesCategories) {
+//	public Views.FenetreNouveauProduit(String[] lesCategories) {
 	public FenetreNouveauProduit() {	
 
 		setTitle("Creation Produit");
@@ -46,7 +51,9 @@ public class FenetreNouveauProduit extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-                FenetrePrincipale.getControleurGeneral().getControleurCreerSupprimerProduit().creerProduit(txtNom.getText(), txtPrixHT.getText(), txtQte.getText());
+		ControleurGeneral controleurGeneral = ControleurGeneral.getInstance();
+		ControleurCreerSupprimerProduit controleurCreerSupprimerProduit = controleurGeneral.getControleurCreerSupprimerProduit();
+		controleurCreerSupprimerProduit.creerProduit(txtNom.getText(), txtPrixHT.getText(), txtQte.getText());
 		this.dispose();
 	}
 

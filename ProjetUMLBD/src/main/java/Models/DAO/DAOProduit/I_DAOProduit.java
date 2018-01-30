@@ -1,6 +1,6 @@
-package Model.DAO.DAOProduit;
+package Models.DAO.DAOProduit;
 
-import Model.I_Produit;
+import Models.I_Produit;
 import java.util.List;
 
 public interface I_DAOProduit {

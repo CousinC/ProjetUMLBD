@@ -1,11 +1,12 @@
-import Model.I_Catalogue;
+package Controllers;
+
+import Models.I_Catalogue;
 
 import javax.swing.JOptionPane;
 
 public class ControleurEnregistrerAchatVente {
     
-    private static I_Catalogue catalogue;
-    private JOptionPane messageInformatif;
+    private I_Catalogue catalogue;
     
     public ControleurEnregistrerAchatVente(I_Catalogue cat){
         this.catalogue = cat;
@@ -14,16 +15,14 @@ public class ControleurEnregistrerAchatVente {
     public void ajouterProduitStock(String nom, String qte){
         boolean retour = catalogue.acheterStock(nom, Integer.parseInt(qte));
         if(!retour){
-            messageInformatif = new JOptionPane();
-            messageInformatif.showMessageDialog(null, "Erreur !", "Erreur", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erreur !", "Erreur", JOptionPane.ERROR_MESSAGE);
         }
     }
     
     public void vendreProduit(String nom, String qte){
         boolean retour = catalogue.vendreStock(nom, Integer.parseInt(qte));
         if(!retour){
-            messageInformatif = new JOptionPane();
-            messageInformatif.showMessageDialog(null, "Erreur !", "Erreur", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erreur !", "Erreur", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

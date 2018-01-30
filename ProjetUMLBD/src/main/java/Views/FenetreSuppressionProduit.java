@@ -1,3 +1,8 @@
+package Views;
+
+import Controllers.ControleurCreerSupprimerProduit;
+import Controllers.ControleurGeneral;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -27,8 +32,10 @@ public class FenetreSuppressionProduit extends JFrame implements ActionListener 
 	}
 
 	public void actionPerformed(ActionEvent e) {
-            FenetrePrincipale.getControleurGeneral().getControleurCreerSupprimerProduit().supprimer((String)combo.getSelectedItem());
-            this.dispose();
+		ControleurGeneral controleurGeneral = ControleurGeneral.getInstance();
+		ControleurCreerSupprimerProduit controleurCreerSupprimerProduit = controleurGeneral.getControleurCreerSupprimerProduit();
+		controleurCreerSupprimerProduit.supprimer((String)combo.getSelectedItem());
+		this.dispose();
 	}
 
 }

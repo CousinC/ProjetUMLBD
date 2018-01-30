@@ -1,3 +1,7 @@
+package Views;
+
+import Controllers.ControleurGeneral;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -14,7 +18,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 	private JButton btVente;
 	private JButton btQuitter;
         
-        private static ControleurGeneral controleurGeneral = new ControleurGeneral();
+	private ControleurGeneral controleurGeneral = ControleurGeneral.getInstance();
 	
 	public FenetrePrincipale() {
 		
@@ -65,16 +69,16 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 
 	public void actionPerformed(ActionEvent e) {
 
-/* tabProduits permet de tester le fonctionnement des fen�tres avec un tableau de noms de produits "en dur"
-   Quand l'application fonctionnera, il faudra bien s�r r�cup�rer les noms des produits dans le Catalogue */
+/* tabProduits permet de tester le fonctionnement des fenêtres avec un tableau de noms de produits "en dur"
+   Quand l'application fonctionnera, il faudra bien sûr récupérer les noms des produits dans le Catalogue */
 		String[] tabProduits = controleurGeneral.genererListeProduits();
-/* M�me chose pour tabCategories (partie 4) */ 		
+/* Même chose pour tabCategories (partie 4) */
 //		String[] tabCategories = new String[] {"Bio", "Luxe" };
 		
 		if (e.getSource() == btAfficher)
-			new FenetreAffichage(getControleurGeneral().getControleurEtatStock().affichageEtatStock());
+			new FenetreAffichage(controleurGeneral.getControleurEtatStock().affichageEtatStock());
 		if (e.getSource() == btNouveauProduit)
-//			new FenetreNouveauProduit(tabCategories);
+//			new Views.FenetreNouveauProduit(tabCategories);
 			new FenetreNouveauProduit();
 		if (e.getSource() == btSupprimerProduit)
 			new FenetreSuppressionProduit(tabProduits);
@@ -103,15 +107,9 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 	public void windowDeiconified(WindowEvent arg0) {}
 	public void windowIconified(WindowEvent arg0) {}
 	public void windowOpened(WindowEvent arg0) {}
-
-	
 	
 	public static void main(String[] args) {
 		new FenetrePrincipale();
 	}
-
-        public static ControleurGeneral getControleurGeneral() {
-            return controleurGeneral;
-        }
 
 }

@@ -1,8 +1,10 @@
-import Model.I_Catalogue;
+package Controllers;
+
+import Models.I_Catalogue;
 
 public class ControleurCreerSupprimerProduit {
     
-    private static I_Catalogue catalogue;
+    private I_Catalogue catalogue;
     
     public ControleurCreerSupprimerProduit(I_Catalogue cat){
         this.catalogue = cat;
